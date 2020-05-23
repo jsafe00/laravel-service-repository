@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Repositories\PostRepository;
-use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -27,7 +27,6 @@ class PostService
         $this->postRepository = $postRepository;
     }
 
-
     /**
      * Delete post by id.
      *
@@ -36,10 +35,21 @@ class PostService
      */
     public function deleteById($id)
     {
-       $post =  $this->postRepository->getById($id);
-       $post = $post->delete();
+        DB::beginTransaction();
 
-       return $post;
+        try {
+            $post = $this->postRepository->delete($id);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+
+            throw new InvalidArgumentException('Unable to delete post data');
+        }
+
+        DB::commit();
+
+        return $post;
 
     }
 
@@ -71,7 +81,7 @@ class PostService
      * @param array $data
      * @return String
      */
-    public function updatePost($data)
+    public function updatePost($data, $id)
     {
         $validator = Validator::make($data, [
             'title' => 'bail|min:2',
@@ -85,8 +95,7 @@ class PostService
         DB::beginTransaction();
 
         try {
-            $post_data = $this->postRepository->getById($data['id']);
-            $post_data->update($data);
+            $post = $this->postRepository->update($data, $id);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -97,7 +106,7 @@ class PostService
 
         DB::commit();
 
-        return $post_data;
+        return $post;
 
     }
 
@@ -123,6 +132,5 @@ class PostService
 
         return $result;
     }
-
 
 }

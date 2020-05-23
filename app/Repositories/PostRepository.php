@@ -63,18 +63,38 @@ class PostRepository
         return $post->fresh();
     }
 
-//    /**
-//     * Save Post
-//     *
-//     * @param $data
-//     * @return Post $post
-//     */
-//
-//    public function save($data)
-//    {
-//        $post = $this->post->create($data);
-//        return $post->refresh();
-//    }
+    /**
+     * Update Post
+     *
+     * @param $data
+     * @return Post
+     */
+    public function update($data, $id)
+    {
+        
+        $post = $this->post->find($id);
 
+        $post->title = $data['title'];
+        $post->description = $data['description'];
+
+        $post->update();
+
+        return $post;
+    }
+
+    /**
+     * Update Post
+     *
+     * @param $data
+     * @return Post
+     */
+    public function delete($id)
+    {
+        
+        $post = $this->post->find($id);
+        $post->delete();
+
+        return $post;
+    }
 
 }
