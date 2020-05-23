@@ -2,11 +2,11 @@
 
 My version of Laravel app using service-repository pattern. You may use Postman to try the CRUD functionality. This is just for Backend only.
 
-Create - POST - http://{localhost}/post/?title={newTitle}&description={newDescription}
-Read - GET (all)- http://{localhost}/post/
-       GET (byID) - http://{localhost}/post/{id}
-Update - PATCH -  http://{localhost}/post/{id}?title={updatedTitle}&description={updatedTitle}
-Delete - DELETE - http://{localhost}/post/{id}
+Create - POST - http://{localhost}/post/?title={newTitle}&description={newDescription} <br />
+Read - GET (all)- http://{localhost}/post/ <br />
+       GET (byID) - http://{localhost}/post/{id} <br />
+Update - PATCH -  http://{localhost}/post/{id}?title={updatedTitle}&description={updatedTitle} <br />
+Delete - DELETE - http://{localhost}/post/{id} <br />
                   
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
