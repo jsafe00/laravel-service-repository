@@ -1,3 +1,14 @@
+<a href="https://www.buymeacoffee.com/jsafe00" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
+My version of Laravel app using service-repository pattern. You may use Postman to try the CRUD functionality. This is just for Backend only.
+
+Create - POST - http://{localhost}/post/?title={newTitle}&description={newDescription}
+Read - GET (all)- http://{localhost}/post/
+       GET (byID) - http://{localhost}/post/{id}
+Update - PATCH -  http://{localhost}/post/{id}?title={updatedTitle}&description={updatedTitle}
+Delete - DELETE - http://{localhost}/post/{id}
+                  
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
