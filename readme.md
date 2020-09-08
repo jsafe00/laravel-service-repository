@@ -1,6 +1,8 @@
 <a href="https://www.buymeacoffee.com/jsafe00" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
-My version of Laravel app using service-repository pattern. You may use Postman to try the CRUD functionality. This is just for Backend only.
+Laravel app using service-repository pattern. You may use Postman to try the CRUD functionality. This is just for Backend only.
+
+You can check the tutorial at http://safventure.live/implement-crud-with-laravel-service-repository-pattern
 
 Create - POST - http://{localhost}/post/?title={newTitle}&description={newDescription} <br />
 Read - GET (all)- http://{localhost}/post/ <br />
