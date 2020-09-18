@@ -60,7 +60,7 @@ class PostService
      */
     public function getAll()
     {
-        return $this->postRepository->getAllPost();
+        return $this->postRepository->getAll();
     }
 
     /**
