@@ -22,11 +22,11 @@ class PostRepository
     }
 
     /**
-     * Get all post.
+     * Get all posts.
      *
      * @return Post $post
      */
-    public function getAllPost()
+    public function getAll()
     {
         return $this->post
             ->get();
