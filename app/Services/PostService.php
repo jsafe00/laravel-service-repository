@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Repositories\PostRepository;
+use App\Repositories\EloquentPostRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +23,7 @@ class PostService
      *
      * @param PostRepository $postRepository
      */
-    public function __construct(PostRepository $postRepository)
+    public function __construct(EloquentPostRepositoryInterface $postRepository)
     {
         $this->postRepository = $postRepository;
     }

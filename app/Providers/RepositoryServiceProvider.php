@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repositories\PostRepositoryInterface;
+use App\Repositories\EloquentPostRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -14,7 +14,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(PostRepositoryInterface::class);
+        $this->app->bind(EloquentPostRepositoryInterface::class);
     }
 
     /**
