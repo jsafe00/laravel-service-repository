@@ -2,7 +2,7 @@
 
 Laravel app using service-repository pattern. You may use Postman to try the CRUD functionality. This is just for Backend only.
 
-You can check the tutorial at https://dev.to/jsafe00/implement-crud-with-laravel-service-repository-pattern-1dkl
+You can check the tutorial at https://dev.to/safventure/implement-crud-with-laravel-service-repository-pattern-1dkl
 
 Create - POST - http://{localhost}/post/?title={newTitle}&description={newDescription} <br />
 Read - GET (all)- http://{localhost}/post/ <br />
