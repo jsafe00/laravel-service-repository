@@ -3,10 +3,16 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Traits\HasApiResponse;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
+    use HasApiResponse;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -27,12 +33,13 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     * @param Exception $exception
      *
-     * @param  \Exception  $exception
      * @return void
+     * @throws Exception
+     * @author <ferasbbm>
      */
-    public function report(Exception $exception)
+    public function report(Exception $exception): void
     {
         parent::report($exception);
     }
@@ -40,12 +47,23 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function render($request, Exception $exception)
     {
+        if ($request->wantsJson()) {
+            if ($exception instanceof ModelNotFoundException) {
+                return $this->ApiErrorResponse([], 'ItemNotFound', Response::HTTP_NOT_FOUND);
+            }
+
+            if ($exception instanceof ValidationException) {
+                return $this->validationErrorResponse($exception->errors());
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
