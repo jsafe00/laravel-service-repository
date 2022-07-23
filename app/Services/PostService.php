@@ -2,15 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use App\Repositories\PostRepository;
 use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
-use InvalidArgumentException;
 
-class PostService
+class PostService extends Service
 {
     /**
      * @var $postRepository
@@ -27,110 +23,75 @@ class PostService
         $this->postRepository = $postRepository;
     }
 
-    /**
-     * Delete post by id.
-     *
-     * @param $id
-     * @return String
-     */
-    public function deleteById($id)
-    {
-        DB::beginTransaction();
-
-        try {
-            $post = $this->postRepository->delete($id);
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to delete post data');
-        }
-
-        DB::commit();
-
-        return $post;
-
-    }
 
     /**
      * Get all post.
      *
-     * @return String
+     * @return JsonResponse
      */
-    public function getAll()
+    public function getAll(): JsonResponse
     {
-        return $this->postRepository->getAll();
+        $posts = $this->postRepository->getAll();
+
+        return $this->ApiSuccessResponse($posts);
+    }
+
+    /**
+     * Store to DB if there are no errors.
+     *
+     * @param $data
+     *
+     * @return JsonResponse
+     */
+    public function savePostData($data): JsonResponse
+    {
+        $post = $this->postRepository->save($data);
+
+        return $this->ApiSuccessResponse($post, 'Post Created Successfully');
     }
 
     /**
      * Get post by id.
      *
      * @param $id
-     * @return String
+     *
+     * @return JsonResponse
      */
-    public function getById($id)
+    public function show($id): JsonResponse
     {
-        return $this->postRepository->getById($id);
+        $post = $this->postRepository->getById($id);
+
+        return $this->ApiSuccessResponse($post);
     }
 
     /**
      * Update post data
-     * Store to DB if there are no errors.
      *
-     * @param array $data
-     * @return String
+     * @param $data
+     * @param $id
+     *
+     * @return JsonResponse
      */
-    public function updatePost($data, $id)
+    public function updatePost($data, $id): JsonResponse
     {
-        $validator = Validator::make($data, [
-            'title' => 'bail|min:2',
-            'description' => 'bail|max:255'
-        ]);
+        $post = $this->postRepository->update($data, $id);
 
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $post = $this->postRepository->update($data, $id);
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to update post data');
-        }
-
-        DB::commit();
-
-        return $post;
-
+        return $this->ApiSuccessResponse($post);
     }
 
     /**
-     * Validate post data.
-     * Store to DB if there are no errors.
+     * Delete post by id.
      *
-     * @param array $data
-     * @return String
+     * @param $id
+     *
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function savePostData($data)
+    public function delete($id): JsonResponse
     {
-        $validator = Validator::make($data, [
-            'title' => 'required',
-            'description' => 'required'
-        ]);
+        $this->postRepository->delete($id);
 
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
-        $result = $this->postRepository->save($data);
-
-        return $result;
+        return $this->ApiSuccessResponse(null, 'Post Deleted Successfully');
     }
 
 }
